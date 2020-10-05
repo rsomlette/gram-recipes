@@ -4,9 +4,9 @@ const typeDefs = gql`
   type Recipe {
     _id: ID
     name: String!
-    category: String!
+    category: [String]!
     description: String!
-    instructions: String!
+    instructions: [String]!
     createdDate: String
     likes: Int
     username: String
