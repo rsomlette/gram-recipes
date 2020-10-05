@@ -6,7 +6,7 @@ const RecipeSchema = new Schema({
     required: true,
   },
   category: {
-    type: String,
+    type: [String],
     required: true,
   },
   description: {
@@ -14,7 +14,7 @@ const RecipeSchema = new Schema({
     required: true,
   },
   instructions: {
-    type: String,
+    type: [String],
     required: true,
   },
   createdDate: {

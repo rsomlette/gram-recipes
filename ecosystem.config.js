@@ -6,20 +6,16 @@ module.exports = {
   time: true,
 };
 
-function buildBackendProcessInfo() {
-  return {
-    name: `grapqhl-mongo`,
-    cwd: path.join(__dirname, `server`),
-    script: "yarn",
-    args: "start",
-  };
-}
+const buildBackendProcessInfo = () => ({
+  name: `grapqhl-mongo`,
+  cwd: path.join(__dirname, `server`),
+  script: "yarn",
+  args: "start",
+});
 
-function buildWebsiteProcessInfo() {
-  return {
-    name: "recipe-app",
-    cwd: path.join(__dirname, "frontend/web"),
-    script: "yarn",
-    args: "start",
-  };
-}
+const buildWebsiteProcessInfo = () => ({
+  name: "recipe-app",
+  cwd: path.join(__dirname, "frontend/web"),
+  script: "yarn",
+  args: "start",
+});
