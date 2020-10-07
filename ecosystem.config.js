@@ -1,16 +1,11 @@
 /* eslint import/no-commonjs: off */
 const path = require("path");
 
-module.exports = {
-  apps: [buildBackendProcessInfo(), buildWebsiteProcessInfo()],
-  time: true,
-};
-
 const buildBackendProcessInfo = () => ({
   name: `grapqhl-mongo`,
   cwd: path.join(__dirname, `server`),
   script: "yarn",
-  args: "start",
+  args: "server",
 });
 
 const buildWebsiteProcessInfo = () => ({
@@ -19,3 +14,8 @@ const buildWebsiteProcessInfo = () => ({
   script: "yarn",
   args: "start",
 });
+
+module.exports = {
+  apps: [buildBackendProcessInfo(), buildWebsiteProcessInfo()],
+  time: true,
+};

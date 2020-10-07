@@ -25,6 +25,7 @@ const typeDefs = gql`
     recipes: [Recipe]
     users: [User]
   }
+
   type Mutation {
     addRecipe(
       name: String!
@@ -33,6 +34,11 @@ const typeDefs = gql`
       instructions: String!
       author: String!
     ): Recipe
+    signupUser(username: String, email: String!, password: String!): Token
+  }
+
+  type Token {
+    token: String!
   }
 `;
 
