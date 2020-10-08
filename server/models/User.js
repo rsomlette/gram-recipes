@@ -1,5 +1,6 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
+const env = require("../config/env");
 
 const UserSchema = new Schema({
   username: {
@@ -26,13 +27,21 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre("save", function (next) {
-  if (!this.isModified("password")) return next;
+  var user = this;
 
-  bcrypt.genSalt(process.env.SALT_WORK_FACTOR, (err, salt) => {
+  // only hash the password if it has been modified (or is new)
+  if (!user.isModified("password")) return next;
+
+  // generate a salt
+  bcrypt.genSalt(parseInt(env.SALT_WORK_FACTOR || 10, 10), (err, salt) => {
     if (err) return next(err);
-    bcrypt.hash(this.password, salt, (err, hash) => {
+
+    // hash the password along with our new salt
+    bcrypt.hash(user.password, salt, (err, hash) => {
       if (err) return next(err);
-      this.password = hash;
+
+      // override the cleartext password with the hashed one
+      user.password = hash;
       next();
     });
   });

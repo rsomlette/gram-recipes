@@ -1,8 +1,7 @@
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
-const dotenv = require("dotenv");
 const logger = require("pino")();
-dotenv.config();
+const env = require("./config/env");
 
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
@@ -14,17 +13,18 @@ const server = new ApolloServer({
 });
 
 mongoose
-  .connect(process.env.MONGO_URI, {
+  .connect(env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+    useCreateIndex: true,
   })
-  .then(() => logger.info("DB CONNECTED"))
-  .then(server.listen)
-  .then(({ url }) => logger.info(`🚀  Server ready at ${url}`))
-  .catch((err) => logger.error(err));
+  .then(() => logger.info("📚  Connected to the database"))
+  .catch((err) => logger.error("💥  ", err));
 
 mongoose.connection.once("open", () =>
-  logger.info("Connected to a MongoDB instance")
+  logger.info("🔮  Connected to a MongoDB instance")
 );
 
 mongoose.connection.on("error", (error) => logger.error(error));
+
+server.listen().then(({ url }) => logger.info(`🚀  Server ready at ${url}`));

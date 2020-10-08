@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -27,8 +27,14 @@ export const Signup = () => {
         password: formValues.password,
         username: formValues.username,
       },
-    }).then(console.log);
+    });
   };
+
+  useEffect(() => {
+    if (!data || !data.signupUser) return;
+    // TODO: Redirect user
+    console.log(data.signupUser.token);
+  }, [data]);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center">
@@ -68,6 +74,8 @@ export const Signup = () => {
         <Button type="submit" disabled={loading} variant="contained">
           Submit
         </Button>
+        {/* //TODO: Better error handling */}
+        {error && <p>{error.message}</p>}
       </Box>
     </Box>
   );

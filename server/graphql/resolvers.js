@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const env = require("../config/env");
 
 const Recipe = require("../models/Recipe");
 const User = require("../models/User");
@@ -32,7 +33,7 @@ const resolvers = {
       const user = await User.findOne({ username });
       if (user) throw new Error("User already exist");
       const newUser = await new User({ username, email, password }).save();
-      return { token: createToken(newUser, process.env.SECRET, "1hr") };
+      return { token: createToken(newUser, env.SECRET, "1hr") };
     },
   },
 };
