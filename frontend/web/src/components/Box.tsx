@@ -31,6 +31,8 @@ type BoxProps = ColorProps &
   ShadowProps;
 
 export const Box = styled.div<BoxProps>`
+  transition: 200ms linear all;
+
   ${color}
   ${space}
   ${layout}

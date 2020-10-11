@@ -1,17 +1,13 @@
-const jwt = require("jsonwebtoken");
 const env = require("../config/env");
-
 const Recipe = require("../models/Recipe");
-const User = require("../models/User");
-
-const createToken = (user, secret, expiresIn) => {
-  const { username, email } = user;
-  return jwt.sign({ username, email }, secret, { expiresIn });
-};
+const { User, verifyPassword, createToken } = require("../models/User");
 
 const resolvers = {
   Query: {
-    recipes: async (root, args, context) => Recipe.find({}),
+    recipes: async (root, args, { currentUser }) => {
+      if (!currentUser) return null;
+      return await Recipe.find({});
+    },
     users: () => User.find({}),
   },
   Mutation: {
@@ -28,6 +24,13 @@ const resolvers = {
         author,
       }).save();
       return newRecipe;
+    },
+    login: async (root, { username, password }) => {
+      const user = await User.findOne({ username });
+      if (!user) throw new Error("User not found");
+      const isValidPassword = await verifyPassword(password, user.password);
+      if (!isValidPassword) throw new Error("Invalid password");
+      return { token: createToken(user, env.SECRET, "1hr") };
     },
     signupUser: async (root, { username, email, password }) => {
       const user = await User.findOne({ username });

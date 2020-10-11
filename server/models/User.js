@@ -1,6 +1,23 @@
 const { Schema, model } = require("mongoose");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const env = require("../config/env");
+
+const createToken = (user, secret, expiresIn) => {
+  const { username, email } = user;
+  return jwt.sign({ username, email }, secret, { expiresIn });
+};
+
+const getUser = async (token) => {
+  try {
+    return await jwt.verify(token, env.SECRET);
+  } catch (err) {
+    throw err;
+  }
+};
+
+const verifyPassword = async (password, userPassword) =>
+  await bcrypt.compare(password, userPassword);
 
 const UserSchema = new Schema({
   username: {
@@ -47,4 +64,9 @@ UserSchema.pre("save", function (next) {
   });
 });
 
-module.exports = model("User", UserSchema);
+module.exports = {
+  User: model("User", UserSchema),
+  createToken,
+  getUser,
+  verifyPassword,
+};

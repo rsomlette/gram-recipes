@@ -1,7 +1,8 @@
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
-
+import React, { ChangeEvent, useEffect, useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+
 import { Box } from "../../components/Box";
 import { useMutation } from "@apollo/client";
 import { SIGNUP_USER } from "../../graphql/mutation";
@@ -12,7 +13,6 @@ export const Signup = () => {
     password: "",
     username: "",
   });
-  const passwordRef = useRef<HTMLInputElement>(null);
   const [signupUser, { data, loading, error }] = useMutation(SIGNUP_USER);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -56,14 +56,12 @@ export const Signup = () => {
         <TextField
           required={true}
           type="text"
-          //   placeholder="Username"
           name="username"
           value={formValues.username}
           onChange={handleChange}
           label="Username"
         />
         <TextField
-          ref={passwordRef}
           required={true}
           type="password"
           name="password"
@@ -74,6 +72,9 @@ export const Signup = () => {
         <Button type="submit" disabled={loading} variant="contained">
           Submit
         </Button>
+        <Box>
+          <Link to="/login">Login</Link> | <Link to="/">Home</Link>
+        </Box>
         {/* //TODO: Better error handling */}
         {error && <p>{error.message}</p>}
       </Box>

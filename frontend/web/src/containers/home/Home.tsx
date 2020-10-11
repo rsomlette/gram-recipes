@@ -5,8 +5,7 @@ export const Home = () => (
   <div>
     <div>Home</div>
     <div>
-      <Link to="/login">Login</Link>
-      <Link to="/signup">Signup</Link>
+      <Link to="/login">Login</Link> | <Link to="/signup">Signup</Link>
     </div>
   </div>
 );

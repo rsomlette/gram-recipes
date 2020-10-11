@@ -34,7 +34,8 @@ const typeDefs = gql`
       instructions: String!
       author: String!
     ): Recipe
-    signupUser(username: String, email: String!, password: String!): Token
+    signupUser(username: String!, email: String!, password: String!): Token
+    login(username: String!, password: String!): Token
   }
 
   type Token {
