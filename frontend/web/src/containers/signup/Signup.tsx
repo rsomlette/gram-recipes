@@ -1,9 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import { Link } from "react-router-dom";
 
-import { Box } from "../../components/Box";
+import { Box, Link, Button, InputText } from "../../components";
 import { useMutation } from "@apollo/client";
 import { SIGNUP_USER } from "../../graphql/mutation";
 
@@ -15,8 +12,8 @@ export const Signup = () => {
   });
   const [signupUser, { data, loading, error }] = useMutation(SIGNUP_USER);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormValues({ ...formValues, [event.target.name]: event.target.value });
+  const handleChange = (value: string, name: string) => {
+    setFormValues({ ...formValues, [name]: value });
   };
 
   const handleSubmit = (event: ChangeEvent<HTMLFormElement>) => {
@@ -45,7 +42,7 @@ export const Signup = () => {
         as="form"
         onSubmit={handleSubmit}
       >
-        <TextField
+        <InputText
           required={true}
           type="email"
           name="email"
@@ -53,7 +50,7 @@ export const Signup = () => {
           onChange={handleChange}
           label="Email"
         />
-        <TextField
+        <InputText
           required={true}
           type="text"
           name="username"
@@ -61,7 +58,7 @@ export const Signup = () => {
           onChange={handleChange}
           label="Username"
         />
-        <TextField
+        <InputText
           required={true}
           type="password"
           name="password"
@@ -69,11 +66,11 @@ export const Signup = () => {
           onChange={handleChange}
           label="Password"
         />
-        <Button type="submit" disabled={loading} variant="contained">
+        <Button type="submit" disabled={loading}>
           Submit
         </Button>
-        <Box>
-          <Link to="/login">Login</Link> | <Link to="/">Home</Link>
+        <Box display="flex" justifyContent="center" mt={4}>
+          <Link to="/login">back to login</Link>
         </Box>
         {/* //TODO: Better error handling */}
         {error && <p>{error.message}</p>}

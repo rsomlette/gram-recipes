@@ -20,7 +20,7 @@ import {
   ShadowProps,
 } from "styled-system";
 
-type BoxProps = ColorProps &
+export type MultiStyledSystemType = ColorProps &
   SpaceProps &
   LayoutProps &
   TypographyProps &
@@ -30,7 +30,7 @@ type BoxProps = ColorProps &
   PositionProps &
   ShadowProps;
 
-export const Box = styled.div<BoxProps>`
+export default styled.div<MultiStyledSystemType>`
   transition: 200ms linear all;
 
   ${color}
